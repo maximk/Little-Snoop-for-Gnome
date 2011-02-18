@@ -1,0 +1,8 @@
+
+This is a very experimental prototype for the snoopon.me client for Gnome
+Desktop on Linux.
+
+To build run:
+
+gcc -o little-snoop little-snoop.c `pkg-info --cflags --libs gtk+-2.0
+libsoup-2.4`
