@@ -86,10 +86,15 @@ static void snap(void)
 			sz.cx, sz.cy);
 
 	dim_t ssz = get_shrink_size(sz);
+	dim_t ssz2;
+	ssz2.cx = ssz.cx / 2;
+	ssz2.cy = ssz.cy / 2;
 	dim_t tsz = get_thumb_size(sz);
 
-	GdkPixbuf *shot1 = gdk_pixbuf_scale_simple(screenshot,
+	GdkPixbuf *shot0 = gdk_pixbuf_scale_simple(screenshot,
 		ssz.cx, ssz.cy, GDK_INTERP_HYPER);
+	GdkPixbuf *shot1 = gdk_pixbuf_scale_simple(screenshot,
+		ssz2.cx, ssz2.cy, GDK_INTERP_HYPER);
 	GdkPixbuf *shot2 = gdk_pixbuf_scale_simple(screenshot,
 		tsz.cx, tsz.cy, GDK_INTERP_HYPER);
 
@@ -100,7 +105,7 @@ static void snap(void)
 	gchar *thumbnail_data;
 	gsize thumbnail_size;
 
-	gdk_pixbuf_save_to_buffer(screenshot,
+	gdk_pixbuf_save_to_buffer(shot0,
 		   	&snapshot_data, &snapshot_size, "png", 0); 
 	gdk_pixbuf_save_to_buffer(shot1,
 		   	&snapshot2_data, &snapshot2_size, "png", 0); 
@@ -119,7 +124,7 @@ static void snap(void)
 			"\"snapshot\":\"%s\",\"snapshot2\":\"%s\",\"thumbnail\":\"%s\"}]}",
 				sz.cx, sz.cy,
 				ssz.cx, ssz.cy,
-				ssz.cx / 2, ssz.cy / 2,
+				ssz2.cx, ssz2.cy,
 				tsz.cx, tsz.cy,
 				snapshot_b64, snapshot2_b64, thumbnail_b64);
 
